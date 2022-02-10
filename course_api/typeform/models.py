@@ -1,7 +1,8 @@
 import enum
 from django.db import models
-from care.utils.models.base import BaseManager, BaseModel
-from care.utils.models.jsonfield import JSONField
+from course_api.utils.models.base import BaseManager, BaseModel
+from course_api.utils.models.jsonfield import JSONField
+from course_api.users.models import User
 # Create your models here.
 
 # JS Types: 
@@ -57,13 +58,20 @@ class Form(BaseModel):
         return self.name
 
 class Submission(BaseModel):
-    form_field = models.ForeignKey(FormField, on_delete=models.CASCADE)
-    answer = models.CharField(max_length=100)
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
+    submitted_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     objects = BaseManager()
 
     def __str__(self):
         return f"{self.form.name} - {self.form_field.label} ({self.form_field.kind})"
+
+class Answer(BaseModel):
+    form_field = models.ForeignKey(FormField, on_delete=models.CASCADE)
+    answer = models.CharField(max_length=100)
+    submission = models.ForeignKey(Submission, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.submission.form.name} - {self.form_field.label} ({self.form_field.kind})"
 
     
