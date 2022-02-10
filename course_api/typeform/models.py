@@ -3,37 +3,6 @@ from django.db import models
 from course_api.utils.models.base import BaseManager, BaseModel
 from course_api.utils.models.jsonfield import JSONField
 from course_api.users.models import User
-# Create your models here.
-
-# JS Types: 
-# 
-# export type textFieldTypes = "text" | "email" | "date";
-
-# export type TextField = {
-#   kind: "text";
-#   id: number;
-#   label: string;
-#   fieldType: textFieldTypes;
-#   value: string;
-# };
-
-# export type DropdownField = {
-#   kind: "dropdown";
-#   id: number;
-#   label: string;
-#   options: string[];
-#   value: string;
-# };
-# export type RadioField = {
-#   kind: "radio";
-#   id: number;
-#   label: string;
-#   options: string[];
-#   value: string;
-# };
-
-# export type FormField = TextField | DropdownField | RadioField;
-# export type FormFieldKind = FormField["kind"];
 
 class FormField(BaseModel):
     class FormFieldKind(enum.Enum):
