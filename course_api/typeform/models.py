@@ -11,20 +11,27 @@ class FormField(BaseModel):
         RADIO = "radio"
 
     kind = models.CharField(max_length=20, choices=[(tag.name, tag.value) for tag in FormFieldKind])
-    id = models.IntegerField()
     label = models.CharField(max_length=100)    
     options = JSONField(null=True, blank=True, verbose_name="Dropdown Options")
     value = models.CharField(max_length=100, null=True, blank=True)
+    form = models.ForeignKey("Form", on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = "Form Field"
+        verbose_name_plural = "Form Fields"
     def __str__(self):
         return f"{self.label} ({self.kind})"
 
 class Form(BaseModel):
-    name = models.CharField(max_length=100)
-    fields = models.ManyToManyField(FormField, related_name="forms")
+    title = models.CharField(max_length=100)
+    description = models.TextField(null=True, blank=True)
+    is_public = models.BooleanField(default=False)
+    expires_at = models.DateTimeField(null=True, blank=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="created_forms")
+    # Add the fields of the Form. One field can only be in one Form.
 
     def __str__(self):
-        return self.name
+        return self.title
 
 class Submission(BaseModel):
     form = models.ForeignKey(Form, on_delete=models.CASCADE)

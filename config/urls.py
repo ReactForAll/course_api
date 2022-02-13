@@ -12,12 +12,13 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 schema_view = get_schema_view(
    openapi.Info(
-      title="Snippets API",
+      title="TypeForm API",
       default_version='v1',
-      description="Test description",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
-      license=openapi.License(name="BSD License"),
+      description="Api Documentation for Typeform",
+      terms_of_service="https://typeformapi.coronasafe.live/",
+      contact=openapi.Contact(email="hey@gigin.dev"),
+      license=openapi.License(name="MIT License"),
+      url="/api/"
    ),
    public=True,
    permission_classes=[permissions.AllowAny],
@@ -47,7 +48,7 @@ urlpatterns += [
     # API base url
     path("api/", include("config.api_router")),
     # DRF auth token
-    path("auth-token/", obtain_auth_token),
+    path("api/auth-token/", obtain_auth_token),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
     path(
         "api/docs/",
