@@ -19,7 +19,7 @@ class TestView(GenericViewSet):
     @swagger_auto_schema(
         responses={200: DummyFormSerializer(many=True)},
     )
-    def get(self, request):
+    def mock_test(self, request):
         return Response([
             {
                 "id": 1,

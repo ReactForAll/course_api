@@ -1,6 +1,6 @@
 
 from django.conf import settings
-from django.urls import include,path
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter, SimpleRouter
 from course_api.typeform.api_views import FieldViewSet, FormViewSet, TestView
 
@@ -25,10 +25,9 @@ forms_router.register(r'fields', FieldViewSet, basename='form-fields')
 
 urlpatterns = [
     # GET /api/test -> TestView.as_view()
-    path('test/', TestView.as_view(actions={'get': 'get'})),
+    path('mock_test/', TestView.as_view(actions={'get': 'mock_test'}), name='mock_test'),
     path(r'', include(router.urls)),
     path(r'', include(forms_router.urls)),
     path('token/', DecoratedTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', DecoratedTokenRefreshView.as_view(), name='token_refresh'),
 ]
-
