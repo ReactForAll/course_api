@@ -12,15 +12,15 @@ class TestView(GenericViewSet):
         return Response([
             {
                 "id": 1,
-                "name": "Form 1",
+                "title": "Form 1",
             },
             {
                 "id": 2,
-                "name": "Form 2",
+                "title": "Form 2",
             },
             {
                 "id": 3,
-                "name": "Form 3",
+                "title": "Form 3",
             }
         ])
 
