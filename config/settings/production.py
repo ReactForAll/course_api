@@ -204,3 +204,6 @@ sentry_sdk.init(
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# Swagger disable Auth
+USE_SESSION_AUTH=False
