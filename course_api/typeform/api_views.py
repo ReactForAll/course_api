@@ -5,6 +5,26 @@ from course_api.typeform.models import Form, FormField
 from course_api.typeform.serializers import FieldSerializer, FormSerializer
 from yaml import serialize
 
+
+# API View returns a JSON with constant value "[value: "Success"]"
+class TestView(GenericViewSet):
+    def get(self, request):
+        return Response([
+            {
+                "id": 1,
+                "name": "Form 1",
+            },
+            {
+                "id": 2,
+                "name": "Form 2",
+            },
+            {
+                "id": 3,
+                "name": "Form 3",
+            }
+        ])
+
+
 class FormViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet, CreateModelMixin):
     serializer_class = FormSerializer
     authentication_classes = []

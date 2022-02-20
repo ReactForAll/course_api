@@ -123,18 +123,21 @@ INSTALLED_APPS += ["anymail"]  # noqa F405
 # https://anymail.readthedocs.io/en/stable/installation/#anymail-settings-reference
 # https://anymail.readthedocs.io/en/stable/esps/sendgrid/
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+# Anymail SendGrid
 # ANYMAIL = {
 #     "SENDGRID_API_KEY": env("SENDGRID_API_KEY"),
 #     "SENDGRID_GENERATE_MESSAGE_ID": env("SENDGRID_GENERATE_MESSAGE_ID"),
 #     "SENDGRID_MERGE_FIELD_FORMAT": env("SENDGRID_MERGE_FIELD_FORMAT"),
 #     "SENDGRID_API_URL": env("SENDGRID_API_URL", default="https://api.sendgrid.com/v3/"),
 # }
-ANYMAIL = {
-    "MAILGUN_API_KEY": env("MAILGUN_API_KEY"),
-    "SEND_DEFAULTS": {
-        "tags": ["couse_api"],
-    },
-}
+# Anymail Mailgun
+# ANYMAIL = {
+#     "MAILGUN_API_KEY": env("MAILGUN_API_KEY"),
+#     "SEND_DEFAULTS": {
+#         "tags": ["couse_api"],
+#     },
+# }
 
 # Collectfast
 # ------------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 from django.conf import settings
 from django.urls import include,path
 from rest_framework.routers import DefaultRouter, SimpleRouter
-from course_api.typeform.api_views import FieldViewSet, FormViewSet
+from course_api.typeform.api_views import FieldViewSet, FormViewSet, TestView
 
 from rest_framework_nested import routers
 from course_api.users.api.views import DecoratedTokenObtainPairView, DecoratedTokenRefreshView, UserViewSet
@@ -24,6 +24,8 @@ forms_router = routers.NestedSimpleRouter(router, r'forms', lookup='form')
 forms_router.register(r'fields', FieldViewSet, basename='form-fields')
 
 urlpatterns = [
+    # GET /api/test -> TestView.as_view()
+    path('test/', TestView.as_view(actions={'get': 'get'})),
     path(r'', include(router.urls)),
     path(r'', include(forms_router.urls)),
     path('token/', DecoratedTokenObtainPairView.as_view(), name='token_obtain_pair'),
