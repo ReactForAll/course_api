@@ -7,7 +7,8 @@ from rest_framework import serializers
 class FormSerializer(serializers.ModelSerializer):
     class Meta:
         model = Form
-        fields = ('id', 'title', 'description', 'is_public')
+        fields = ('id', 'title', 'description', 'is_public', 'created_by', 'created_date', 'modified_date')
+        extra_kwargs = {'created_by': {'read_only': True}}
 
 
 class FieldSerializer(serializers.ModelSerializer):

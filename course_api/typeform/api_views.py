@@ -51,6 +51,9 @@ class FormViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
             return self.queryset.filter(created_by=self.request.user)
         return self.queryset.all()
 
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
+
 
 class FieldViewSet(ModelViewSet):
     serializer_class = FieldSerializer
