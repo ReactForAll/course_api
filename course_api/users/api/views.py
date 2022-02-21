@@ -7,7 +7,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from .serializers import TokenBlacklistResponseSerializer, TokenObtainPairResponseSerializer, TokenRefreshResponseSerializer, TokenVerifyResponseSerializer, UserSerializer
 
-# Simple JWT Views 
+# Simple JWT Views
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import serializers, status
 from rest_framework_simplejwt.views import (
@@ -16,7 +16,6 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
-
 
 
 User = get_user_model()
@@ -49,11 +48,8 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
         serializer = UserSerializer(request.user, context={"request": request})
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
-    
+
 # Simple JWT Views
-
-
-
 class DecoratedTokenObtainPairView(TokenObtainPairView):
     @swagger_auto_schema(
         # Change Description
@@ -64,7 +60,6 @@ class DecoratedTokenObtainPairView(TokenObtainPairView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
-
 
 
 class DecoratedTokenRefreshView(TokenRefreshView):
@@ -88,7 +83,6 @@ class DecoratedTokenVerifyView(TokenVerifyView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
-
 
 
 class DecoratedTokenBlacklistView(TokenBlacklistView):

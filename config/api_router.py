@@ -26,6 +26,8 @@ forms_router.register(r'fields', FieldViewSet, basename='form-fields')
 urlpatterns = [
     # GET /api/test -> TestView.as_view()
     path('mock_test/', TestView.as_view(actions={'get': 'mock_test'}), name='mock_test'),
+    path(r'auth/', include('rest_auth.urls')),
+    path(r'auth/registration/', include('rest_auth.registration.urls')),
     path(r'', include(router.urls)),
     path(r'', include(forms_router.urls)),
     path('token/', DecoratedTokenObtainPairView.as_view(), name='token_obtain_pair'),
