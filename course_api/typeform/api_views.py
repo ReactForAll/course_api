@@ -14,7 +14,7 @@ class TestView(GenericViewSet):
     # Dummy Serializer
     class DummyFormSerializer(Serializer):
         id = IntegerField()
-        name = CharField()
+        title = CharField()
 
     @swagger_auto_schema(
         responses={200: DummyFormSerializer(many=True)},
