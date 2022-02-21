@@ -25,8 +25,6 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
     serializer_class = UserSerializer
     queryset = User.objects.all()
     lookup_field = "username"
-    authentication_classes = []
-    permission_classes = []
 
     def perform_create(self, serializer):
         password = serializer.validated_data.pop("password")
@@ -46,6 +44,7 @@ class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
     @action(detail=False)
     def me(self, request):
         serializer = UserSerializer(request.user, context={"request": request})
+        print(request.user)
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 

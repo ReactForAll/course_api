@@ -79,6 +79,7 @@ THIRD_PARTY_APPS = [
     "drf_spectacular",
     # Additional Third Party Apps
     'drf_yasg',
+    'rest_auth'
 ]
 
 LOCAL_APPS = [
@@ -308,7 +309,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
         "rest_framework.authentication.BasicAuthentication",
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticatedOrReadOnly",),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
