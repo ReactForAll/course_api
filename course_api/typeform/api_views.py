@@ -47,9 +47,7 @@ class FormViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericV
             return self.queryset.filter(is_public=True)
         if(self.request.user.is_anonymous):
             raise PermissionError("You must be authenticated to use this API.")
-        if(self.action in updateMethods):
-            return self.queryset.filter(created_by=self.request.user)
-        return self.queryset.all()
+        return self.queryset.filter(created_by=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)

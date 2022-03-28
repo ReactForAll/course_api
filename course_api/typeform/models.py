@@ -1,7 +1,7 @@
 import enum
 from django.db import models
 from course_api.utils.models.base import BaseManager, BaseModel
-from course_api.utils.models.jsonfield import JSONField
+from django.db.models import JSONField
 from course_api.users.models import User
 
 
@@ -10,12 +10,15 @@ class FormField(BaseModel):
         TEXT = "text"
         DROPDOWN = "dropdown"
         RADIO = "radio"
+        GENERIC = "generic"
 
     kind = models.CharField(max_length=20, choices=[(tag.name, tag.value) for tag in FormFieldKind])
     label = models.CharField(max_length=100)
     options = JSONField(null=True, blank=True, verbose_name="Dropdown Options")
     value = models.CharField(max_length=100, null=True, blank=True)
     form = models.ForeignKey("Form", on_delete=models.CASCADE)
+    # Meta Field used to store additional data
+    meta = JSONField(null=True, blank=True, verbose_name="Meta", help_text="Additional data for the field")
 
     class Meta:
         verbose_name = "Form Field"
