@@ -1,11 +1,12 @@
+from re import X
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin, CreateModelMixin
 from rest_framework.response import Response
 from rest_framework.serializers import Serializer, CharField, IntegerField
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.permissions import IsAuthenticated
-from course_api.typeform.models import Form, FormField, Submission
-from course_api.typeform.serializers import FieldSerializer, FormSerializer, SubmissionSerializer
+from course_api.typeform.models import Answer, Form, FormField, Submission
+from course_api.typeform.serializers import AnswerSerializer, FieldSerializer, FormSerializer, SubmissionSerializer
 from drf_yasg.utils import swagger_auto_schema
 from yaml import serialize
 
@@ -73,15 +74,30 @@ class SubmissionViewSet(RetrieveModelMixin, ListModelMixin, CreateModelMixin, Ge
     def get_queryset(self):
         if(self.request.user.is_anonymous):
             raise PermissionError("You must be authenticated to use this API.")
-        return Submission.objects.filter(form=self.kwargs['form_pk'])
+        return Submission.objects.filter(form=self.kwargs['form_pk'], form__created_by=self.request.user)
+
+    def get_permissions(self):
+        if(self.action == 'create'):
+            self.permission_classes = []
+        return super().get_permissions()
 
     def perform_create(self, serializer):
         # Add Authorization
         serializer.save(form_id=self.kwargs['form_pk'])
 
-    def list(self, request, *args, **kwargs):
-        # Add Authorization
+
+class AnswerViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):
+    serializer_class = AnswerSerializer
+    queryset = Answer.objects.all()
+
+    def get_queryset(self, *args, **kwargs):
+        updateMethods = ['patch', 'update', 'partial_update']
+        if(self.request.user.is_anonymous and self.action not in updateMethods):
+            return self.queryset.filter(submission__form__is_public=True)
         if(self.request.user.is_anonymous):
             raise PermissionError("You must be authenticated to use this API.")
-        self.queryset.filter(form__created_by=self.request.user)
-        return super().list(request, *args, **kwargs)
+        return self.queryset.filter(submission__form__created_by=self.request.user)
+
+    def perform_create(self, serializer):
+        # Add Authorization
+        serializer.save(submission_id=self.kwargs['submission_pk'])

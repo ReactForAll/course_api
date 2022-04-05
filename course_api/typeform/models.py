@@ -42,17 +42,19 @@ class Form(BaseModel):
 
 class Submission(BaseModel):
     form = models.ForeignKey(Form, on_delete=models.CASCADE)
-    submitted_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    @property
+    def answers(self):
+        return Answer.objects.filter(submission=self)
     objects = BaseManager()
 
     def __str__(self):
-        return f"{self.form.name} - {self.form_field.label} ({self.form_field.kind})"
+        return f"{self.form.title} - {self.created_date}"
 
 
 class Answer(BaseModel):
     form_field = models.ForeignKey(FormField, on_delete=models.CASCADE)
-    answer = models.CharField(max_length=100)
+    value = models.CharField(max_length=100)
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE)
 
     def __str__(self):
