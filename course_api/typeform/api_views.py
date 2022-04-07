@@ -38,12 +38,12 @@ class TestView(GenericViewSet):
         ])
 
 
-class FormViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet, CreateModelMixin):
+class FormViewSet(ModelViewSet):
     serializer_class = FormSerializer
     queryset = Form.objects.all()
 
     def get_queryset(self, *args, **kwargs):
-        updateMethods = ['patch', 'update', 'partial_update']
+        updateMethods = ['patch', 'update', 'partial_update', 'delete']
         if(self.request.user.is_anonymous and self.action not in updateMethods):
             return self.queryset.filter(is_public=True)
         if(self.request.user.is_anonymous):
