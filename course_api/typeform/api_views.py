@@ -61,7 +61,7 @@ class FieldViewSet(ModelViewSet):
         updateMethods = ['patch', 'update', 'partial_update', 'delete']
         if(self.request.user.is_anonymous and self.action not in updateMethods):
             return self.queryset.filter(form=self.kwargs['form_pk'], form__is_public=True)
-        return FormField.objects.filter(form=self.kwargs['form_pk'])
+        return FormField.objects.filter(form=self.kwargs['form_pk'], form__created_by=self.request.user)
 
     def perform_create(self, serializer):
         # Add Authorization
