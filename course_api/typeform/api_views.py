@@ -58,8 +58,9 @@ class FieldViewSet(ModelViewSet):
     serializer_class = FieldSerializer
 
     def get_queryset(self):
-        if(self.request.user.is_anonymous):
-            raise PermissionError("You must be authenticated to use this API.")
+        updateMethods = ['patch', 'update', 'partial_update', 'delete']
+        if(self.request.user.is_anonymous and self.action not in updateMethods):
+            return self.queryset.filter(form=self.kwargs['form_pk'], form__is_public=True)
         return FormField.objects.filter(form=self.kwargs['form_pk'])
 
     def perform_create(self, serializer):
