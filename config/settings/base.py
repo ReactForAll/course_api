@@ -5,6 +5,8 @@ from email.policy import default
 from pathlib import Path
 
 import environ
+from corsheaders.defaults import default_headers
+
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # course_api/
@@ -78,8 +80,8 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "drf_spectacular",
     # Additional Third Party Apps
-    'drf_yasg',
-    'rest_auth'
+    "drf_yasg",
+    "rest_auth",
 ]
 
 LOCAL_APPS = [
@@ -311,9 +313,11 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticatedOrReadOnly",),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 100
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+    ),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 100,
 }
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
@@ -335,3 +339,6 @@ SPECTACULAR_SETTINGS = {
 # ------------------------------------------------------------------------------
 CORS_ALLOW_ALL_ORIGINS = True
 
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "sentry-trace",
+]
